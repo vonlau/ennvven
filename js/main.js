@@ -82,13 +82,18 @@
       } else {
         siteNav.removeAttribute("aria-hidden");
       }
-      siteNav.querySelectorAll("a").forEach(function (a) {
+      siteNav.querySelectorAll("a, summary").forEach(function (el) {
         if (hidden) {
-          a.setAttribute("tabindex", "-1");
+          el.setAttribute("tabindex", "-1");
         } else {
-          a.removeAttribute("tabindex");
+          el.removeAttribute("tabindex");
         }
       });
+      if (hidden) {
+        siteNav.querySelectorAll(".nav-dropdown[open]").forEach(function (d) {
+          d.removeAttribute("open");
+        });
+      }
     };
 
     setNavHidden(true);
@@ -104,5 +109,25 @@
     );
 
     navObserver.observe(heroPanel);
+  }
+
+  /* ---------- nav dropdown: close on outside click / Escape ---------- */
+
+  var navDropdowns = document.querySelectorAll(".nav-dropdown");
+
+  if (navDropdowns.length) {
+    document.addEventListener("click", function (e) {
+      navDropdowns.forEach(function (d) {
+        if (d.hasAttribute("open") && !d.contains(e.target)) {
+          d.removeAttribute("open");
+        }
+      });
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        navDropdowns.forEach(function (d) { d.removeAttribute("open"); });
+      }
+    });
   }
 })();
