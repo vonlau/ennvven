@@ -43,7 +43,7 @@
   --link: #2f5fd0;
 
   --page-top: #f8fd30;
-  --page-base: #f2f2f2;
+  --page-base: #f0f0f0;
 
   --tile-a: linear-gradient(135deg, #fff4c8 0%, #ffe9a4 46%, #cfe2ff 100%);
   --tile-b: linear-gradient(135deg, #dbeaff 0%, #bfd9ff 52%, #fff1be 100%);
@@ -70,7 +70,8 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: linear-gradient(180deg, var(--page-top) 0, var(--page-top) 2.25rem, var(--page-base) 7.5rem);
+  /* background: linear-gradient(-160deg, var(--page-top) 0%, var(--page-base) 12%); */
+  background: radial-gradient(circle at 50% -7%, var(--page-top) 0%, var(--page-base) 12%);
   color: var(--ink);
   font-family: var(--font);
   font-size: 1rem;
@@ -163,7 +164,21 @@ h1, h2, h3 { text-wrap: balance; }
 
 .wordmark:hover .bloom { transform: rotate(180deg) scale(1.15); }
 
-.site-nav { display: flex; gap: 0.6rem; }
+.site-nav {
+  display: flex;
+  gap: 0.6rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out);
+}
+
+.site-nav.nav-hero-hidden {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
+
+.site-nav.nav-hero-hidden a { pointer-events: none; }
 
 /* ---------- hero ---------- */
 
@@ -310,8 +325,11 @@ h1, h2, h3 { text-wrap: balance; }
   max-width: 34rem;
   margin: 0 auto;
   padding: clamp(3rem, 7vw, 4.5rem) 1.5rem;
+  min-height: min(52vh, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
-  border-top: 1px solid var(--line);
 }
 
 .section-stub h2 {
@@ -773,7 +791,8 @@ h1, h2, h3 { text-wrap: balance; }
   .pill,
   .btn-primary,
   .tile-arrow,
-  .sticky-note { transition: none; }
+  .sticky-note,
+  .site-nav { transition: none; }
 }
 
 /* ---------- responsive ---------- */

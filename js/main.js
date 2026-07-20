@@ -67,4 +67,42 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     applyParallax();
   }
+
+  /* ---------- hide site nav while the hero is in view ---------- */
+
+  var heroPanel = document.querySelector(".hero-panel");
+  var siteNav = document.querySelector(".site-nav");
+  var siteHeader = document.querySelector(".site-header");
+
+  if (heroPanel && siteNav && "IntersectionObserver" in window) {
+    var setNavHidden = function (hidden) {
+      siteNav.classList.toggle("nav-hero-hidden", hidden);
+      if (hidden) {
+        siteNav.setAttribute("aria-hidden", "true");
+      } else {
+        siteNav.removeAttribute("aria-hidden");
+      }
+      siteNav.querySelectorAll("a").forEach(function (a) {
+        if (hidden) {
+          a.setAttribute("tabindex", "-1");
+        } else {
+          a.removeAttribute("tabindex");
+        }
+      });
+    };
+
+    setNavHidden(true);
+
+    var headerHeight = siteHeader ? siteHeader.offsetHeight : 0;
+    var navObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          setNavHidden(entry.isIntersecting);
+        });
+      },
+      { rootMargin: "-" + headerHeight + "px 0px 0px 0px", threshold: 0 }
+    );
+
+    navObserver.observe(heroPanel);
+  }
 })();
