@@ -130,4 +130,73 @@
       }
     });
   }
+
+  /* ---------- case study sticky side nav ---------- */
+
+  var caseCover = document.querySelector(".case-cover");
+  var caseBody = document.querySelector(".case-body");
+
+  if (caseCover && caseBody) {
+    var sectionHeadings = caseBody.querySelectorAll("h2");
+
+    if (sectionHeadings.length && "IntersectionObserver" in window) {
+      var usedIds = {};
+      var slugify = function (text) {
+        var base = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+        var slug = base;
+        var i = 2;
+        while (usedIds[slug]) {
+          slug = base + "-" + i;
+          i += 1;
+        }
+        usedIds[slug] = true;
+        return slug;
+      };
+
+      var sideNav = document.createElement("nav");
+      sideNav.className = "case-side-nav";
+      sideNav.setAttribute("aria-label", "Sections on this page");
+
+      var sections = [];
+
+      sectionHeadings.forEach(function (h2) {
+        if (h2.id) {
+          usedIds[h2.id] = true;
+        } else {
+          h2.id = slugify(h2.textContent);
+        }
+        var link = document.createElement("a");
+        link.href = "#" + h2.id;
+        link.textContent = h2.textContent;
+        sideNav.appendChild(link);
+        sections.push({ link: link, heading: h2 });
+      });
+
+      document.body.appendChild(sideNav);
+
+      var coverObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            sideNav.classList.toggle("is-visible", !entry.isIntersecting);
+          });
+        },
+        { threshold: 0 }
+      );
+      coverObserver.observe(caseCover);
+
+      var headerHeightForSpy = siteHeader ? siteHeader.offsetHeight : 0;
+      var spyObserver = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            sections.forEach(function (section) {
+              section.link.classList.toggle("is-active", section.heading === entry.target);
+            });
+          });
+        },
+        { rootMargin: "-" + (headerHeightForSpy + 20) + "px 0px -70% 0px", threshold: 0 }
+      );
+      sections.forEach(function (section) { spyObserver.observe(section.heading); });
+    }
+  }
 })();
