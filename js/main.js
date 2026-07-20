@@ -1,4 +1,4 @@
-/* Enn-wen portfolio — scroll reveals, parallax, hero pointer sheen */
+/* Enn-wen portfolio — scroll reveals, parallax */
 
 (function () {
   "use strict";
@@ -66,19 +66,5 @@
 
     window.addEventListener("scroll", onScroll, { passive: true });
     applyParallax();
-  }
-
-  /* ---------- hero pointer sheen ---------- */
-
-  var heroPanel = document.querySelector(".hero-panel");
-
-  if (!reducedMotion && heroPanel && window.matchMedia("(pointer: fine)").matches) {
-    heroPanel.addEventListener("pointermove", function (e) {
-      var rect = heroPanel.getBoundingClientRect();
-      var x = ((e.clientX - rect.left) / rect.width) * 100;
-      var y = ((e.clientY - rect.top) / rect.height) * 100;
-      heroPanel.style.setProperty("--mx", x.toFixed(1) + "%");
-      heroPanel.style.setProperty("--my", y.toFixed(1) + "%");
-    });
   }
 })();
