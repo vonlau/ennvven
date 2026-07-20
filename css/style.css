@@ -42,9 +42,6 @@
   --blue: #bed9ff;
   --link: #2f5fd0;
 
-  --tile-a: linear-gradient(135deg, #fff4c8 0%, #ffe9a4 46%, #cfe2ff 100%);
-  --tile-b: linear-gradient(135deg, #dbeaff 0%, #bfd9ff 52%, #fff1be 100%);
-
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 
   --font: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -71,7 +68,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   background-color: #fafafa;
-  background-image: url("img/yellow-triangle.png");
+  background-image: url("../img/yellow-triangle.png");
   background-repeat: no-repeat;
   background-position: right var(--triangle-x) top var(--triangle-y);
   background-size: 100%;
@@ -95,11 +92,11 @@ h1, h2, h3 { text-wrap: balance; }
   gap: 0.5rem;
   padding: 0.6rem 1.15rem;
   border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-pill);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--shadow-pill), inset 0 1px 0 rgba(255, 255, 255, 0.65);
   color: var(--ink);
   text-decoration: none;
   font-size: 1.025rem;
@@ -111,8 +108,8 @@ h1, h2, h3 { text-wrap: balance; }
 .pill:hover,
 .pill:focus-visible {
   transform: translateY(-2px);
-  background: #ffffff;
-  border-color: #d5d9e0;
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(255, 255, 255, 0.75);
 }
 
 .btn-primary {
@@ -292,7 +289,7 @@ h1, h2, h3 { text-wrap: balance; }
   font-weight: 400;
   line-height: 1.6;
   color: var(--muted);
-  max-width: 40ch;
+  max-width: 48ch;
 }
 
 /* ---------- hero sticky notes ---------- */
@@ -440,10 +437,9 @@ h1, h2, h3 { text-wrap: balance; }
   text-decoration: none;
   color: var(--ink);
   isolation: isolate;
+  background: #ffffff;
+  border: 1px solid var(--line);
 }
-
-.tile-a { background: var(--tile-a); }
-.tile-b { background: var(--tile-b); }
 
 .tile::before {
   content: "";
@@ -469,7 +465,6 @@ h1, h2, h3 { text-wrap: balance; }
   object-fit: cover;
   object-position: top center;
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-tile);
   transition: transform 600ms var(--ease-out);
   will-change: transform;
 }
@@ -490,11 +485,6 @@ h1, h2, h3 { text-wrap: balance; }
   justify-content: space-between;
   gap: 1rem;
   padding: 0.9rem 0.9rem 0.9rem 1.25rem;
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 .tile-caption .chip {
